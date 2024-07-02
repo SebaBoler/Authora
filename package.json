@@ -22,8 +22,12 @@
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
-    "generate:pg": "drizzle-kit generate --config drizzle.config.ts",
-    "push": "drizzle-kit push"
+    "drizzle": "drizzle-kit",
+    "drizzle:pg": "drizzle-kit generate --config drizzle.config.ts",
+    "drizzle:check": "drizzle-kit check",
+    "drizzle:push": "drizzle-kit push",
+    "drizzle:migrate": "drizzle-kit migrate",
+    "drizzle:studio": "drizzle-kit studio"
   },
   "dependencies": {
     "@nestjs/common": "^10.3.10",
@@ -36,6 +40,7 @@
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.1",
     "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
     "drizzle-orm": "^0.31.2",
     "drizzle-zod": "^0.5.1",
     "env": "^0.0.2",
@@ -47,6 +52,8 @@
     "postmark": "^4.0.4",
     "reflect-metadata": "^0.2.0",
     "rxjs": "^7.8.1",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.1",
     "zod": "^3.23.8"
   },
   "devDependencies": {
@@ -58,6 +65,8 @@
     "@types/node": "^20.3.1",
     "@types/pg": "^8.11.6",
     "@types/supertest": "^6.0.0",
+    "@types/swagger-jsdoc": "^6.0.4",
+    "@types/swagger-ui-express": "^4.1.6",
     "@typescript-eslint/eslint-plugin": "^6.0.0",
     "@typescript-eslint/parser": "^6.0.0",
     "drizzle-kit": "^0.22.8",

@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import * as argon2 from 'argon2';
 import { CreateUserDto } from './dto/create-user.dto';
-import { databaseSchema as dbSchema } from '@database/databaseSchema';
+import { databaseSchema as dbSchema } from '@database/database-schema';
 import { DrizzleService } from '@database/drizzle.service';
 import { eq } from 'drizzle-orm';
 import { UserDto } from './dto/user.dto';
