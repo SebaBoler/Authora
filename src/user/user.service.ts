@@ -21,6 +21,19 @@ export class UserService {
     return user;
   }
 
+  async getById(userId: string): Promise<UserDto> {
+    const user = await this.db
+      .select(dbSchema.usersTable)
+      .where('id', userId)
+      .one();
+
+    if (!user) {
+      throw new Error('User not found');
+    }
+
+    return user;
+  }
+
   async create(user: CreateUserDto): Promise<UserDto> {
     const newUser = await this.db
       .insert(dbSchema.usersTable)
@@ -88,7 +101,7 @@ export class UserService {
   }
 
   async activateUser(code: string): Promise<void> {
-    await this.db.transaction(async (tx) => {
+    return this.db.transaction(async (tx) => {
       const activationCode = await tx
         .select(dbSchema.activationCodeTable)
         .where('code', code)

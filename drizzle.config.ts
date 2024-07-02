@@ -1,10 +1,11 @@
 import { defineConfig } from 'drizzle-kit';
 import { ConfigService } from '@nestjs/config';
 import { config } from 'dotenv';
+import { EnvironmentVariables } from '@common/environment-variables';
 
 config();
 
-const configService = new ConfigService();
+const configService = new ConfigService<EnvironmentVariables, true>();
 
 export default defineConfig({
   schema: './src/database/schema/*',
@@ -17,4 +18,5 @@ export default defineConfig({
     password: configService.get('POSTGRES_PASSWORD'),
     database: configService.get('POSTGRES_DATABASE'),
   },
+  verbose: true,
 });
