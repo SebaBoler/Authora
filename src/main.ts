@@ -28,18 +28,6 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);
 
-  // const documentation = new DocumentBuilder()
-  //   .setTitle('Authora API documentation')
-  //   .setVersion('1.0');
-  // documentation.addBearerAuth();
-  // SwaggerModule.setup(
-  //   '',
-  //   app,
-  //   SwaggerModule.createDocument(app, documentation.build(), {
-  //     extraModels: [],
-  //   }),
-  // );
-
   app.use(cookieParser());
 
   app.useGlobalPipes(new ValidationPipe({ whitelist: true }));
