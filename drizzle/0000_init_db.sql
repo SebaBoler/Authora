@@ -48,6 +48,7 @@ CREATE TABLE IF NOT EXISTS "users" (
 	"first_name" text,
 	"last_name" text,
 	"active" boolean DEFAULT false,
+	"refresh_token" text,
 	"created_at" timestamp (3) DEFAULT now(),
 	"updated_at" timestamp (3),
 	CONSTRAINT "users_email_unique" UNIQUE("email")
