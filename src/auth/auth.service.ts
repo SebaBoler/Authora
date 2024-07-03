@@ -5,6 +5,7 @@ import { CreateUserDto, UserService } from '@user/index';
 import { LogInDto } from './dto/logIn-in.dto';
 import { TokenPayload } from './token-payload.interface';
 import { HashingService } from './hashing.service';
+import { IConfiguration } from 'src/config/configuration';
 
 @Injectable()
 export class AuthService {
@@ -16,18 +17,23 @@ export class AuthService {
   constructor(
     private readonly userService: UserService,
     private readonly hashingService: HashingService,
-    private readonly configService: ConfigService,
+    private readonly configService: ConfigService<IConfiguration>,
     private readonly jwtService: JwtService,
   ) {
-    this.jwtExpirationTime = this.configService.get<number>(
-      'JWT_EXPIRATION_TIME',
+    this.jwtExpirationTime = this.configService.get('jwt.expirationTime', {
+      infer: true,
+    });
+
+    this.jwtRefreshExpirationTime = this.configService.get(
+      'jwt.refreshExpirationTime',
+      {
+        infer: true,
+      },
     );
-    this.jwtRefreshExpirationTime = this.configService.get<string>(
-      'JWT_REFRESH_EXPIRATION_TIME',
-    );
-    this.jwtSecret = this.configService.get<string>('JWT_SECRET');
+
+    this.jwtSecret = this.configService.get('jwt.secret', { infer: true });
     this.isProduction =
-      this.configService.get<string>('NODE_ENV') === 'production';
+      this.configService.get('basic.nodeEnv', { infer: true }) === 'production';
   }
 
   async validateUser(email: string, password: string): Promise<any> {
