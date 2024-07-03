@@ -8,6 +8,7 @@ import { ConfigService } from '@nestjs/config';
 import { IConfiguration } from './config/configuration';
 import rateLimit from 'express-rate-limit';
 import helmet from 'helmet';
+import { corsOptions } from './config/cors.config';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -30,7 +31,7 @@ async function bootstrap() {
 
   app.useGlobalPipes(new ValidationPipe({ whitelist: true }));
 
-  app.use(cors());
+  app.use(cors(corsOptions));
 
   // security
   app.use(helmet());
@@ -45,6 +46,8 @@ async function bootstrap() {
     }),
   );
 
-  await app.listen(configService.get('basic.port', { infer: true }));
+  const port = configService.get('basic.port', { infer: true });
+  await app.listen(port);
+  console.log(`🚀 Service Authora is running on : ${await app.getUrl()}`);
 }
 bootstrap();

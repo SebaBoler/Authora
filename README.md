@@ -22,7 +22,7 @@ AuthService is a user authentication and authorization service built using NestJ
 
    ```bash
    git clone https://github.com/SebaBoler/Authora.git
-   cd auth-service
+   cd Authora
    ```
 
 2. **Install dependencies:**
