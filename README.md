@@ -71,26 +71,16 @@ AuthService is a user authentication and authorization service built using NestJ
    npm run start
    ```
 
-2. **API Endpoints:**
+2. **Swagger Documentation**
 
-   - `POST /auth/register`: Register a new user.
-     - Request body:
-       ```json
-       {
-         "email": "user@example.com",
-         "password": "StrongPassword123"
-       }
-       ```
-   - `POST /auth/login`: Log in with email and password.
-     - Request body:
-       ```json
-       {
-         "email": "user@example.com",
-         "password": "StrongPassword123"
-       }
-       ```
-   - `POST /auth/activate/:code`: Activate a user account with the activation code.
-   - `GET /auth/profile`: Get the profile of the authenticated user (requires JWT).
+The Swagger documentation for the Authora API is automatically generated using `swagger-jsdoc`. It provides a detailed overview of all the API endpoints, including request parameters and response structures.
+
+To access the Swagger UI:
+
+1. Ensure the application is running by executing `npm run start`.
+2. Open your web browser and navigate to `http://localhost:3000/api-docs`.
+
+This will display the interactive Swagger UI, where you can explore and test the API endpoints.
 
 3. **Role-Based Access Control (RBAC):**
 
