@@ -77,8 +77,8 @@ AuthService is a user authentication and authorization service built using NestJ
 
    To access the Swagger UI:
 
-   2.1 Ensure the application is running by executing `npm run start`.
-   2.2 Open your web browser and navigate to `http://localhost:3000/api-docs`.
+   - Ensure the application is running by executing `npm run start`.
+   - Open your web browser and navigate to `http://localhost:3000/api-docs`.
 
    This will display the interactive Swagger UI, where you can explore and test the API endpoints.
 
