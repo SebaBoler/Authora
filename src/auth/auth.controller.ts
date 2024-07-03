@@ -18,6 +18,7 @@ import { Roles } from './roles.decorator';
 import { EmailService } from '../email/email.service';
 import { CreateUserDto, UserService } from '@user/index';
 import { LogInDto } from './dto/logIn-in.dto';
+import { RefreshTokenDto } from './dto/refresh-token.dto';
 
 @Controller('auth')
 export class AuthController {
@@ -44,6 +45,15 @@ export class AuthController {
   async logOut(@Res({ passthrough: true }) response: Response) {
     const cookie = this.authService.getCookieForLogOut();
     response.setHeader('Set-Cookie', cookie);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Post('refresh')
+  async refresh(@Body() refreshTokenDto: RefreshTokenDto) {
+    return this.authService.refreshToken(
+      refreshTokenDto.userId,
+      refreshTokenDto.refreshToken,
+    );
   }
 
   @Post('register')

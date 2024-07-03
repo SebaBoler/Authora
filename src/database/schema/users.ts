@@ -10,6 +10,7 @@ export const usersTable = pgTable('users', {
   firstName: text('first_name'),
   lastName: text('last_name'),
   active: boolean('active').default(false),
+  refreshToken: text('refresh_token'),
   createdAt: timestamp('created_at', {
     mode: 'date',
     precision: 3,

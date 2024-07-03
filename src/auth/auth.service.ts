@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 import { CreateUserDto, UserService } from '@user/index';
@@ -9,16 +9,22 @@ import { TokenPayload } from './token-payload.interface';
 @Injectable()
 export class AuthService {
   private jwtExpirationTime: number;
+  private jwtRefreshExpirationTime: string;
   private isProduction: boolean;
 
   constructor(
     private readonly userService: UserService,
     private readonly jwtService: JwtService,
+    private readonly jwtSecret: string,
     private readonly configService: ConfigService,
   ) {
     this.jwtExpirationTime = this.configService.get<number>(
       'JWT_EXPIRATION_TIME',
     );
+    this.jwtRefreshExpirationTime = this.configService.get<string>(
+      'JWT_REFRESH_EXPIRATION_TIME',
+    );
+    this.jwtSecret = this.configService.get<string>('JWT_SECRET');
     this.isProduction =
       this.configService.get<string>('NODE_ENV') === 'production';
   }
@@ -59,5 +65,23 @@ export class AuthService {
   async register(user: CreateUserDto) {
     user.password = await argon2.hash(user.password);
     return this.userService.create(user);
+  }
+
+  async getRefreshToken(userId: string) {
+    const payload: TokenPayload = { userId };
+    const refreshToken = this.jwtService.sign(payload, {
+      secret: this.jwtSecret,
+      expiresIn: this.jwtRefreshExpirationTime,
+    });
+    await this.userService.setRefreshToken(refreshToken, userId);
+    return refreshToken;
+  }
+
+  async refreshToken(userId: string, refreshToken: string) {
+    const user = await this.userService.findById(userId);
+    if (!user || user.refreshToken !== refreshToken) {
+      throw new UnauthorizedException('Invalid refresh token');
+    }
+    return this.getCookieWithJwtToken(userId);
   }
 }

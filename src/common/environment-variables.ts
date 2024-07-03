@@ -6,6 +6,7 @@ export interface EnvironmentVariables {
   POSTGRES_DATABASE: string;
   JWT_SECRET: string;
   JWT_EXPIRATION_TIME: number;
+  JWT_REFRESH_EXPIRATION_TIME: string;
   POSTMARK_API_KEY: string;
   NODE_ENV: string;
 }

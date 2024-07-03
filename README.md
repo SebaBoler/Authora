@@ -43,6 +43,7 @@ AuthService is a user authentication and authorization service built using NestJ
    POSTGRES_DATABASE=your_database_name
    JWT_SECRET=your_jwt_secret
    JWT_EXPIRATION_TIME=86400
+   JWT_REFRESH_EXPIRATION_TIME=7d
    POSTMARK_API_KEY=your_postmark_api_key
    NODE_ENV=development
    ```

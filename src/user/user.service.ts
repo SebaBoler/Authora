@@ -21,7 +21,7 @@ export class UserService {
     return user;
   }
 
-  async getById(userId: string): Promise<UserDto> {
+  async findById(userId: string): Promise<UserDto> {
     const user = await this.db
       .select(dbSchema.usersTable)
       .where('id', userId)
@@ -122,5 +122,13 @@ export class UserService {
           .execute();
       }
     });
+  }
+
+  async setRefreshToken(refreshToken: string, userId: string): Promise<void> {
+    await this.db
+      .update(dbSchema.usersTable)
+      .set({ refreshToken })
+      .where('id', userId)
+      .execute();
   }
 }
