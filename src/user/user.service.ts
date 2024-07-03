@@ -1,10 +1,11 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import * as argon2 from 'argon2';
 import { CreateUserDto } from './dto/create-user.dto';
 import { databaseSchema as dbSchema } from '@database/database-schema';
 import { DrizzleService } from '@database/drizzle.service';
 import { eq } from 'drizzle-orm';
 import { UserDto } from './dto/user.dto';
+import { ErrorMessages } from '@common/error-messages.enum';
 
 @Injectable()
 export class UserService {
@@ -107,7 +108,7 @@ export class UserService {
         .where('code', code)
         .one();
       if (!activationCode) {
-        throw new Error('Invalid activation code');
+        throw new BadRequestException(ErrorMessages.INVALID_ACTIVATION_CODE);
       }
 
       if (activationCode) {

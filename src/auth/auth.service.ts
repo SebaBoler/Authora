@@ -6,6 +6,7 @@ import { LogInDto } from './dto/logIn-in.dto';
 import { TokenPayload } from './token-payload.interface';
 import { HashingService } from './hashing.service';
 import { IConfiguration } from 'src/config/configuration';
+import { ErrorMessages } from '@common/error-messages.enum';
 
 @Injectable()
 export class AuthService {
@@ -90,7 +91,7 @@ export class AuthService {
   async refreshToken(userId: string, refreshToken: string) {
     const user = await this.userService.findById(userId);
     if (!user || user.refreshToken !== refreshToken) {
-      throw new UnauthorizedException('Invalid refresh token');
+      throw new UnauthorizedException(ErrorMessages.INVALID_REFRESH_TOKEN);
     }
     return this.getCookieWithJwtToken(userId);
   }

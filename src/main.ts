@@ -9,6 +9,7 @@ import { IConfiguration } from './config/configuration';
 import rateLimit from 'express-rate-limit';
 import helmet from 'helmet';
 import { corsOptions } from './config/cors.config';
+import { ErrorMessages } from '@common/error-messages.enum';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -41,7 +42,7 @@ async function bootstrap() {
       max: 500,
       message: {
         status: 429,
-        message: 'Too many requests, please try again later.',
+        message: ErrorMessages.TOO_MANY_REQUESTS,
       },
     }),
   );
