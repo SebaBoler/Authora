@@ -73,14 +73,14 @@ AuthService is a user authentication and authorization service built using NestJ
 
 2. **Swagger Documentation**
 
-The Swagger documentation for the Authora API is automatically generated using `swagger-jsdoc`. It provides a detailed overview of all the API endpoints, including request parameters and response structures.
+   The Swagger documentation for the Authora API is automatically generated using `swagger-jsdoc`. It provides a detailed overview of all the API endpoints, including request parameters and response structures.
 
-To access the Swagger UI:
+   To access the Swagger UI:
 
-1. Ensure the application is running by executing `npm run start`.
-2. Open your web browser and navigate to `http://localhost:3000/api-docs`.
+   2.1 Ensure the application is running by executing `npm run start`.
+   2.2 Open your web browser and navigate to `http://localhost:3000/api-docs`.
 
-This will display the interactive Swagger UI, where you can explore and test the API endpoints.
+   This will display the interactive Swagger UI, where you can explore and test the API endpoints.
 
 3. **Role-Based Access Control (RBAC):**
 
