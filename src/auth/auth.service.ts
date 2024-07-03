@@ -2,21 +2,22 @@ import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 import { CreateUserDto, UserService } from '@user/index';
-import * as argon2 from 'argon2';
 import { LogInDto } from './dto/logIn-in.dto';
 import { TokenPayload } from './token-payload.interface';
+import { HashingService } from './hashing.service';
 
 @Injectable()
 export class AuthService {
   private jwtExpirationTime: number;
   private jwtRefreshExpirationTime: string;
   private isProduction: boolean;
+  private jwtSecret: string;
 
   constructor(
     private readonly userService: UserService,
-    private readonly jwtService: JwtService,
-    private readonly jwtSecret: string,
+    private readonly hashingService: HashingService,
     private readonly configService: ConfigService,
+    private readonly jwtService: JwtService,
   ) {
     this.jwtExpirationTime = this.configService.get<number>(
       'JWT_EXPIRATION_TIME',
@@ -31,7 +32,10 @@ export class AuthService {
 
   async validateUser(email: string, password: string): Promise<any> {
     const user = await this.userService.findByEmail(email);
-    if (user && (await argon2.verify(user.password, password))) {
+    if (
+      user &&
+      (await this.hashingService.verifyPassword(user.password, password))
+    ) {
       return user;
     }
     return null;
@@ -63,7 +67,7 @@ export class AuthService {
   }
 
   async register(user: CreateUserDto) {
-    user.password = await argon2.hash(user.password);
+    user.password = await this.hashingService.hashPassword(user.password);
     return this.userService.create(user);
   }
 

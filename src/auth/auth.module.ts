@@ -12,6 +12,7 @@ import {
   RolesGuard,
 } from '.';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { HashingService } from './hashing.service';
 
 @Module({
   imports: [
@@ -31,6 +32,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
   ],
   providers: [
     AuthService,
+    HashingService,
     LocalStrategy,
     JwtStrategy,
     {
