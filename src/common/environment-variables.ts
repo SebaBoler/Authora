@@ -7,4 +7,5 @@ export interface EnvironmentVariables {
   JWT_SECRET: string;
   JWT_EXPIRATION_TIME: number;
   POSTMARK_API_KEY: string;
+  NODE_ENV: string;
 }

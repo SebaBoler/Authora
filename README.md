@@ -44,6 +44,7 @@ AuthService is a user authentication and authorization service built using NestJ
    JWT_SECRET=your_jwt_secret
    JWT_EXPIRATION_TIME=86400
    POSTMARK_API_KEY=your_postmark_api_key
+   NODE_ENV=development
    ```
 
 4. **Run the database migrations:**
@@ -52,6 +53,12 @@ AuthService is a user authentication and authorization service built using NestJ
 
    ```bash
    npx drizzle-kit generate:postgres
+   ```
+
+   or
+
+   ```bash
+   npm run drizzle:pg
    ```
 
 ## Usage

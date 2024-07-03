@@ -1,18 +1,27 @@
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
+import { ConfigService } from '@nestjs/config';
 import { CreateUserDto, UserService } from '@user/index';
 import * as argon2 from 'argon2';
 import { LogInDto } from './dto/logIn-in.dto';
 import { TokenPayload } from './token-payload.interface';
-import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class AuthService {
+  private jwtExpirationTime: number;
+  private isProduction: boolean;
+
   constructor(
     private readonly userService: UserService,
     private readonly jwtService: JwtService,
     private readonly configService: ConfigService,
-  ) {}
+  ) {
+    this.jwtExpirationTime = this.configService.get<number>(
+      'JWT_EXPIRATION_TIME',
+    );
+    this.isProduction =
+      this.configService.get<string>('NODE_ENV') === 'production';
+  }
 
   async validateUser(email: string, password: string): Promise<any> {
     const user = await this.userService.findByEmail(email);
@@ -33,9 +42,14 @@ export class AuthService {
   getCookieWithJwtToken(userId: string) {
     const payload: TokenPayload = { userId };
     const token = this.jwtService.sign(payload);
-    return `Authentication=${token}; HttpOnly; Path=/; Max-Age=${this.configService.get(
-      'JWT_EXPIRATION_TIME',
-    )}`;
+
+    let cookieAttributes = `Authentication=${token}; HttpOnly; Path=/; Max-Age=${this.jwtExpirationTime}`;
+
+    if (this.isProduction) {
+      cookieAttributes += '; Secure; SameSite=Lax';
+    }
+
+    return cookieAttributes;
   }
 
   getCookieForLogOut() {
