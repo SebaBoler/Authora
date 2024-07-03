@@ -9,7 +9,7 @@ const options = {
       description: 'API for Authora service',
     },
   },
-  apis: ['./src/controllers/*.ts'],
+  apis: ['./src/**/*.ts'],
 };
 
 const swaggerSpec = swaggerJSDoc(options);

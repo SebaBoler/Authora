@@ -19,7 +19,10 @@ import { EmailService } from '../email/email.service';
 import { CreateUserDto, UserService } from '@user/index';
 import { LogInDto } from './dto/logIn-in.dto';
 import { RefreshTokenDto } from './dto/refresh-token.dto';
+import { ApiBody, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { UserDto } from '@user/dto/user.dto';
 
+@ApiTags('auth')
 @Controller('auth')
 export class AuthController {
   constructor(
@@ -30,6 +33,12 @@ export class AuthController {
 
   @UseGuards(LocalAuthGuard)
   @Post('login')
+  @ApiBody({ type: LogInDto })
+  @ApiResponse({
+    status: 200,
+    description: 'User logged in successfully',
+    type: UserDto,
+  })
   async login(
     @Body() loginDto: LogInDto,
     @Res({ passthrough: true }) response: Response,
@@ -49,6 +58,7 @@ export class AuthController {
 
   @UseGuards(JwtAuthGuard)
   @Post('refresh')
+  @ApiBody({ type: RefreshTokenDto })
   async refresh(@Body() refreshTokenDto: RefreshTokenDto) {
     return this.authService.refreshToken(
       refreshTokenDto.userId,
@@ -57,6 +67,7 @@ export class AuthController {
   }
 
   @Post('register')
+  @ApiBody({ type: CreateUserDto })
   async register(@Body() createUserDto: CreateUserDto) {
     const user = await this.authService.register(createUserDto);
     const activationCode = this.userService.generateActivationCode();

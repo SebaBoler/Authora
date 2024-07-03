@@ -2,6 +2,7 @@ import { DatabaseModule } from '@database/database.module';
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { IConfiguration, configuration } from './config/configuration';
+import { AuthModule } from '@auth/auth.module';
 
 @Module({
   imports: [
@@ -24,6 +25,7 @@ import { IConfiguration, configuration } from './config/configuration';
         };
       },
     }),
+    AuthModule,
   ],
   controllers: [],
   providers: [],

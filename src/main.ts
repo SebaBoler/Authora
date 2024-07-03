@@ -18,17 +18,27 @@ async function bootstrap() {
   const configService: ConfigService<IConfiguration> = app.get(ConfigService);
 
   // generate REST API documentation
-  const documentation = new DocumentBuilder()
-    .setTitle('Authora API documentation')
-    .setVersion('1.0');
-  documentation.addBearerAuth();
-  SwaggerModule.setup(
-    '',
-    app,
-    SwaggerModule.createDocument(app, documentation.build(), {
-      extraModels: [],
-    }),
-  );
+  const config = new DocumentBuilder()
+    .setTitle('Authora API')
+    .setDescription('API for Authora service')
+    .setVersion('1.0.0')
+    .addBearerAuth()
+    .build();
+
+  const document = SwaggerModule.createDocument(app, config);
+  SwaggerModule.setup('api', app, document);
+
+  // const documentation = new DocumentBuilder()
+  //   .setTitle('Authora API documentation')
+  //   .setVersion('1.0');
+  // documentation.addBearerAuth();
+  // SwaggerModule.setup(
+  //   '',
+  //   app,
+  //   SwaggerModule.createDocument(app, documentation.build(), {
+  //     extraModels: [],
+  //   }),
+  // );
 
   app.use(cookieParser());
 
