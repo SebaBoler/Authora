@@ -4,9 +4,9 @@ const options = {
   definition: {
     openapi: '3.0.0',
     info: {
-      title: 'AuthSphere API',
+      title: 'Authora API',
       version: '1.0.0',
-      description: 'API for AuthSphere service',
+      description: 'API for Authora service',
     },
   },
   apis: ['./src/controllers/*.ts'],
